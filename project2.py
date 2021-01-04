@@ -7,7 +7,6 @@ import pandas
 
 # xgboost, numpy, textblob, string
 from keras.preprocessing import text, sequence
-
 from keras import layers, models, optimizers
 
 # 加载数据集
@@ -46,7 +45,6 @@ trainDF = trainDF.reset_index(drop=True)
 # 为标签分配连续编号
 encoder = preprocessing.LabelEncoder()
 trainDF['label'] = encoder.fit_transform(trainDF['label'])
-
 
 def train_model(classifier, feature_vector_train, label, feature_vector_valid, is_neural_net=False):
     # fit the training dataset on the classifier
