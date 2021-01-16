@@ -1,27 +1,26 @@
 # -*- coding: UTF-8 -*-
-import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn import svm
 from sklearn.metrics import accuracy_score
 
-path = "/Users/yeeland/MLdata/iris.data"
-names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
-df = pd.read_csv(path, sep=',', names=names)
-# print(df.head(20))
 
-trainDF = pd.DataFrame()
-# trainDF['data']
-X = df.iloc[:, 0:4]
+def get_data():
+    path = "/Users/yeeland/MLdata/iris.data"
+    names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
+    df = pd.read_csv(path, sep=',', names=names)
+    return df.iloc[:, 0:4], df.iloc[:, 4]
 
-# trainDF['label']
-Y = df.iloc[:, 4]
 
-x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.25)
-
-model = svm.SVC(gamma='scale').fit(x_train, y_train)
-
-y_predict = model.predict(x_test)
-
-accuracy = accuracy_score(y_predict, y_test)
-print(accuracy)
+if __name__ == '__main__':
+    # 获取数据
+    trainDF = pd.DataFrame()
+    X, y = get_data()
+    # 划分训练集和测试集
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    # 训练模型
+    model = svm.SVC().fit(x_train, y_train)
+    # 预测
+    y_predict = model.predict(x_test)
+    accuracy = accuracy_score(y_predict, y_test)
+    print(accuracy)
