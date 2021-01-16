@@ -9,33 +9,36 @@ import pandas
 from keras.preprocessing import text, sequence
 from keras import layers, models, optimizers
 
-# 加载数据集
-trainDF = pandas.DataFrame()
-texts = []
-labels = []
-path = "/Users/yeeland/20_newsgroups"
-for dir_name in os.listdir(path):
-    dir_path = os.path.join(path, dir_name)
-    try:
-        os.listdir(dir_path)
-    except BaseException:
-        continue
-    else:
-        for file in os.listdir(dir_path):
-            file_path = os.path.join(dir_path, file)
-            fh = open(file_path, "rb")
-            line = fh.read()
-            try:
-                line.decode("utf8")
-            except:
-                continue
-                # print(file_path)
-            texts.append(line)
-            labels.append(dir_name)
-            fh.close()
 
-trainDF['text'] = texts
-trainDF['label'] = labels
+def get_data():
+    # 加载数据集
+    texts = []
+    labels = []
+    path = "/Users/yeeland/MLdata/20_newsgroups"
+    for dir_name in os.listdir(path):
+        dir_path = os.path.join(path, dir_name)
+        try:
+            os.listdir(dir_path)
+        except BaseException:
+            continue
+        else:
+            for file in os.listdir(dir_path):
+                file_path = os.path.join(dir_path, file)
+                fh = open(file_path, "rb")
+                line = fh.read()
+                try:
+                    line.decode("utf8")
+                except:
+                    continue
+                    # print(file_path)
+                texts.append(line)
+                labels.append(dir_name)
+            fh.close()
+    return texts, labels
+
+
+trainDF = pandas.DataFrame()
+trainDF['text'], trainDF['label'] = get_data()
 # 随机抽样1000行
 trainDF = trainDF.sample(n=1000)
 # 打乱数据
@@ -45,6 +48,7 @@ trainDF = trainDF.reset_index(drop=True)
 # 为标签分配连续编号
 encoder = preprocessing.LabelEncoder()
 trainDF['label'] = encoder.fit_transform(trainDF['label'])
+
 
 def train_model(classifier, feature_vector_train, label, feature_vector_valid, is_neural_net=False):
     # fit the training dataset on the classifier

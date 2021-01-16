@@ -10,7 +10,7 @@ class Net(nn.Module):
         super(Net, self).__init__()
         self.layer_1 = nn.Sequential(nn.Linear(in_dim, 300), nn.BatchNorm1d(300), nn.ReLU(True))
         self.layer_2 = nn.Sequential(nn.Linear(300, 100), nn.BatchNorm1d(100), nn.ReLU(True))
-        self.output = nn.Linear(100, 10)
+        self.output = nn.Sequential(nn.Linear(100, 10))
 
     def forward(self, x):
         x = self.layer_1(x)
