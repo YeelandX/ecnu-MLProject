@@ -19,8 +19,9 @@ if __name__ == '__main__':
     # 划分训练集和测试集
     x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
     # 训练模型
-    model = svm.SVC().fit(x_train, y_train)
+    model = svm.SVC()
+    model.fit(x_train, y_train)
     # 预测
     y_predict = model.predict(x_test)
     accuracy = accuracy_score(y_predict, y_test)
-    print(accuracy)
+    print('accuracy:', accuracy)

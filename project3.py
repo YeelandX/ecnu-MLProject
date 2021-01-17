@@ -66,22 +66,22 @@ def test():
         equal = predict == label
         correct += torch.sum(equal)
     print('test_loss:{:.6f}'.format(test_loss / len(test_load)), end=',')
-    print('accuracy:{:.6f}'.format(correct / len(test_load)))
+    print('accuracy:{:.2f}%'.format(correct / len(test_load)))
 
 
 if __name__ == '__main__':
-    # （1）导入数据集
+    # 导入数据集
     # 训练集
     train_data = datasets.MNIST(root='./',
                                 train=True,
                                 transform=transforms.ToTensor(),
-                                download=False)
+                                download=True)
     # 测试集
     test_data = datasets.MNIST(root='./',
                                train=False,
                                transform=transforms.ToTensor(),
-                               download=False)
-    # （2）数据装载
+                               download=True)
+    # 数据装载
     # 批次大小
     batch_size = 100
     # 装载训练集，将数据打乱
@@ -93,17 +93,14 @@ if __name__ == '__main__':
                            batch_size=batch_size,
                            shuffle=True)
 
-    # (3)构建模型
+    # 构建模型
     # 网络的结构输入为28*28，第一层隐藏层的输出为300，第二层隐藏层的输出为100，最后输出为10
     model = Net(28 * 28)
 
-    # (4)定义损失函数和优化器
+    # 定义损失函数和优化器
     criterion = nn.CrossEntropyLoss()
-    # mse_loss = nn.MSELoss()
     opt = optim.SGD(model.parameters(), lr=0.5)
 
-    # (5)训练和测试10个周期
-    for i in range(10):
-        print(i, ':', end='')
-        train()
-        test()
+    # 训练和预测
+    train()
+    test()

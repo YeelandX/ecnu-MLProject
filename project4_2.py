@@ -36,4 +36,4 @@ if __name__ == '__main__':
     # 预测
     y_predict = clf.predict(image)
     # 识别准确率
-    print('accuracy_score:', accuracy_score(label, y_predict))
+    print('accuracy:', accuracy_score(y_predict, label))

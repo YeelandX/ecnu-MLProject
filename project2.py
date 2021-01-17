@@ -1,9 +1,8 @@
 # -*- coding: UTF-8 -*-
 import os
-from sklearn import model_selection, metrics
+from sklearn import model_selection, metrics, naive_bayes
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas
-from sklearn.svm import SVC
 
 
 def get_data():
@@ -47,11 +46,11 @@ if __name__ == '__main__':
     # 5重检验
     kf = model_selection.KFold(n_splits=5)
     for train_index, test_index in kf.split(trainDF['text']):
-        # 划分训练集和测试集
+        # 选取训练集和测试集
         train_x, test_x = text_tfidf[train_index], text_tfidf[test_index]
         train_y, test_y = trainDF['label'][train_index], trainDF['label'][test_index]
         # 训练模型
-        model = SVC()
+        model = naive_bayes.MultinomialNB()
         model.fit(train_x, train_y)
         # 预测
         predictions = model.predict(test_x)
